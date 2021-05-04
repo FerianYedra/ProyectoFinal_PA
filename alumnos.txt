@@ -1,0 +1,9 @@
+101021	Gutierrez Javier	Mecatronica	8.2
+183921	Juarez María	Física	9
+392182	Javier Juarez	Mecatronica	7.7
+213424	María Ximenez	Contabilidad	8.5
+850382	Alondra Ramirez	Medicina	9
+972810	Fernando Alvarez	Contabilidad	8.8
+829382	Rodrigo Martinez	Arquitectura	7.9
+787822	Guillermo Gomez	Mecatronica	9.9
+
