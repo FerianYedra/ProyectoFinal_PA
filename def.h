@@ -5,6 +5,7 @@
  * @date 26/03/2021
  */
 
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,3 +42,12 @@ struct estBuscador{
 	nodito *list;
 };
 typedef struct estBuscador navegador;
+
+struct listArb{
+	int cuenta;
+	char nombre[40];
+	char carrera[80];
+	float prom;
+	struct listArb *izq, *der;
+}
+typedef struct listArb arbol;
