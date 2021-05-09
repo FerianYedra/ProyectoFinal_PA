@@ -49,5 +49,5 @@ struct listArb{
 	char carrera[80];
 	float prom;
 	struct listArb *izq, *der;
-}
+};
 typedef struct listArb arbol;
