@@ -6,7 +6,7 @@ nodo *listaCircular(nodo *pt, info dat){
 
 	aux = pt;
 	nuevo = (nodo *)malloc(sizeof(nodo));
-	if(nuevo = NULL){
+	if(nuevo == NULL){
 		printf("No hay memoria dispoible\n");
 		exit(1);
 	}
@@ -24,7 +24,7 @@ nodo *listaCircular(nodo *pt, info dat){
 			}
 			aux = aux->der;
 		}while(aux != pt);
-		if(i = 0){
+		if(i == 0){
 			aux = pt->izq;
 			nuevo->izq = aux;
 			nuevo->der = pt;
@@ -34,6 +34,7 @@ nodo *listaCircular(nodo *pt, info dat){
 		}
 		else{
 			free(nuevo);
+			printf("No se guardo %s (repetido)\n", nuevo->carrera);
 		}
 	}
 	return pt;
@@ -54,6 +55,7 @@ nodito *pushFIFO(info dat, nodito *pt){
 	aux->next = NULL;
 	if(pt == NULL){
 		pt = aux;
+		printf("Se guardo %s\n", aux->nombre);
 	}else{
 		while(mover->next != NULL){
 			mover = mover->next;
@@ -68,6 +70,7 @@ nodo *listaFIFO(nodo *pt, info dat){
 	nodo *aux = pt;
 	do{
 		if(strcmp(dat.car, aux->carrera) == 0){
+			printf("Se mando a guardar %s en %s\n", dat.nom, aux->carrera);
 			aux->fifo = pushFIFO(dat, aux->fifo);
 		}
 		aux = aux->der;
@@ -92,25 +95,28 @@ arbol *generarArbol(arbol *pt, info dat){
 	nuevo->der = NULL;
 	if(aux == NULL){
 		pt = nuevo;
+		printf("Se guardo %i\n", nuevo->cuenta);
 	}
 	while(aux != NULL && salir != 0){
-		if(dat.cta > nuevo->cuenta){
+		if(aux->cuenta > nuevo->cuenta){
 			if(aux->der != NULL){
 				aux = aux->der;
 			}else{
 				aux->der = nuevo;
+				printf("Se guardo %i\n", nuevo->cuenta);
 				salir = 0;
 			}
 		}
-		if(dat.cta < aux->cuenta){
+		if(aux->cuenta < nuevo->cuenta){
 			if(aux->izq != NULL){
 				aux = aux->izq;
 			}else{
 				aux->izq = nuevo;
+				printf("Se guardo %i\n", nuevo->cuenta);
 				salir = 0;
 			}
 		}
-		if(dat.cta == nuevo->cuenta){
+		if(aux->cuenta == nuevo->cuenta){
 			printf("El alumno con la cuenta %i esta repetido, omitiendo\n", dat.cta);
 			free(nuevo);
 			salir = 0;
@@ -119,3 +125,53 @@ arbol *generarArbol(arbol *pt, info dat){
 	return pt;
 }
 
+void actualizarNodos(nodo *pt){
+	nodo *aux = pt;
+	nodito *lista;
+	float prom = 0, sum = 0, mejor;
+
+	do{
+		printf("Se esta revisando %s\n", aux->carrera);
+		lista = aux->fifo;
+		strcpy(aux->mejor, lista->nombre);
+		sum = lista->promedio;
+		aux->alumnos = 1;
+		mejor = lista->promedio;
+		lista = lista->next;
+		while(lista != NULL){
+			sum += lista->promedio;
+			prom = lista->promedio;
+			if(prom > mejor){
+				strcpy(aux->mejor, lista->nombre);
+				mejor = prom;
+			}
+			aux->alumnos++;
+			lista = lista->next;
+		}
+		aux->prom = sum / aux->alumnos;
+		aux = aux->der;
+	}while(aux != pt);
+	return;
+}
+
+void recorrerIzq(GtkButton *btnIzq, gpointer nav){
+	return;
+}
+void recorrerDer(GtkButton *btnIzq, gpointer nav){
+	return;
+}
+void mostrarAlum(GtkButton *btnMostrar, gpointer nav){
+	return;
+}
+void darBaja(GtkButton *btnBaja, gpointer nav){
+	return;
+}
+void close(GtkButton *exit, NULL){
+	return;
+}
+void buscarCta(GtkButton *btnBuscarCta, gpointer root){
+	return;
+}
+void buscarProm(GtkButton *btnBuscarProm, gpointer inicio){
+	return;
+}

@@ -40,6 +40,8 @@ typedef struct elemento nodo;
 struct estBuscador{
 	nodo *pos;
 	nodito *list;
+	char auxWord[80];
+	GtkWidget *lblResCar, *lblResProm, *lblResMej, *lblResAlum;
 };
 typedef struct estBuscador navegador;
 
