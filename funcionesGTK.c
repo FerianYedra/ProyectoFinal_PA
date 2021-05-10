@@ -155,18 +155,73 @@ void actualizarNodos(nodo *pt){
 }
 
 void recorrerIzq(GtkButton *btnIzq, gpointer nav){
+	navegador *pt = (navegador *)nav;
+	char nAlum[3];
+	char cProm[10];
+	if(pt->pos == NULL){
+                return;
+        }
+	pt->pos = pt->pos->izq;
+	sprintf(nAlum, "%i", pt->pos->alumnos);
+	sprintf(cProm, "%f", pt->pos->prom);
+	gtk_label_set_text(GTK_LABEL(pt->lblResCar), pt->pos->carrera);
+	gtk_label_set_text(GTK_LABEL(pt->lblResProm), cProm);
+	gtk_label_set_text(GTK_LABEL(pt->lblResMej), pt->pos->mejor);
+	gtk_label_set_text(GTK_LABEL(pt->lblResAlum), nAlum);
 	return;
 }
 void recorrerDer(GtkButton *btnIzq, gpointer nav){
+	navegador *pt = (navegador *)nav;
+        char nAlum[3];
+	char cProm[10];
+	if(pt->pos == NULL){
+                return;
+        }
+        pt->pos = pt->pos->der;
+        sprintf(nAlum, "%i", pt->pos->alumnos);
+	sprintf(cProm, "%f", pt->pos->prom);
+        gtk_label_set_text(GTK_LABEL(pt->lblResCar), pt->pos->carrera);
+        gtk_label_set_text(GTK_LABEL(pt->lblResProm), cProm);
+        gtk_label_set_text(GTK_LABEL(pt->lblResMej), pt->pos->mejor);
+        gtk_label_set_text(GTK_LABEL(pt->lblResAlum), nAlum);
 	return;
 }
 void mostrarAlum(GtkButton *btnMostrar, gpointer nav){
 	return;
 }
 void darBaja(GtkButton *btnBaja, gpointer nav){
+	navegador *pt = (navegador *)nav;
+	char nAlum[3];
+        char cProm[10];
+	nodo *aux = pt->pos, *sig = pt->pos->der;
+	if(pt->pos == NULL){
+                printf("Error Lista vacia\n");
+		return;
+        }else if(pt->pos->der == pt->pos){
+                pt->pos = NULL;
+		free(aux);
+                gtk_label_set_text(GTK_LABEL(pt->lblResCar), "Lista vacia");
+                gtk_label_set_text(GTK_LABEL(pt->lblResProm), "Lista vacia");
+                gtk_label_set_text(GTK_LABEL(pt->lblResMej), "Lista vacia");
+                gtk_label_set_text(GTK_LABEL(pt->lblResAlum), "Lista vacia");
+                return;
+        }
+	pt->pos->izq->der = pt->pos->der;
+	pt->pos->der->izq = pt->pos->izq;
+	free(aux);
+	printf("------Nodo eliminado------\n");
+	pt->pos = sig;
+	sprintf(nAlum, "%i", pt->pos->alumnos);
+        sprintf(cProm, "%f", pt->pos->prom);
+        gtk_label_set_text(GTK_LABEL(pt->lblResCar), pt->pos->carrera);
+        gtk_label_set_text(GTK_LABEL(pt->lblResProm), cProm);
+        gtk_label_set_text(GTK_LABEL(pt->lblResMej), pt->pos->mejor);
+        gtk_label_set_text(GTK_LABEL(pt->lblResAlum), nAlum);
 	return;
 }
-void close(GtkButton *exit, NULL){
+void closeApp(GtkButton *btnExit, gpointer data){
+	gtk_main_quit();
+	printf("------Cerrando ventana------\n");
 	return;
 }
 void buscarCta(GtkButton *btnBuscarCta, gpointer root){

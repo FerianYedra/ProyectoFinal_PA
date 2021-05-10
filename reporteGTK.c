@@ -13,7 +13,7 @@ void recorrerIzq(GtkButton *btnIzq, gpointer nav);
 void recorrerDer(GtkButton *btnIzq, gpointer nav);
 void mostrarAlum(GtkButton *btnMostrar, gpointer nav);
 void darBaja(GtkButton *btnBaja, gpointer nav);
-void close(GtkButton *exit, gpointer data);
+void closeApp(GtkButton *exit, gpointer data);
 void buscarCta(GtkButton *btnBuscarCta, gpointer root);
 void buscarProm(GtkButton *btnBuscarProm, gpointer inicio);
 
@@ -26,6 +26,7 @@ int main(int argc, char *argv[]){
 	navegador nav;
 	char opcion;
 
+	printf("------Leyendo archivo------\n");
 	fp = fopen("alumnos.txt", "r");
 	if(fp == NULL){
 		printf("Archivo alumnos.txt no disponible\n");
@@ -49,30 +50,40 @@ int main(int argc, char *argv[]){
 			i++;
 	}
 	printf("Se leyeron %i alumnos\n", i);
+	printf("------Archivo leido------\n------Actualizando estructura------\n");
 	actualizarNodos(inicio);
+	printf("------Estructura atualizada------\n");
 	nav.pos = inicio;
 	nav.list = inicio->fifo;
+	printf("------Iniciando interfaz en GTK------\n");
 
 	//La parte gráfica del programa comienza aqui
 	//Declaración de variables para los objetos
-	GtkWidget *window, *titulo, *separador, *table, *box;
+	GtkWidget *window, *titulo, *separador, *table, *box, *box2, *box3;
 	GtkWidget *lblBusc, *lblCar, *lblProm, *lblMej, *lblAlum;
 	GtkWidget *btnIzq, *btnDer;
 	GtkWidget *btnMostrar, *btnBaja;
-	GtkWidget *exit;
+	GtkWidget *btnExit;
 	GtkWidget *lblBuscarCta, *entryCta, *btnBuscarCta;
 	GtkWidget *lblBuscarProm, *entryProm, *btnBuscarProm;
 
 	//1. Iniciar el ambiente
 	gtk_init(&argc, &argv);
 
+	printf("Ambiente iniciado\n");
+	
 	//2. Crear widgets y fijar atributos
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	box = gtk_hbox_new(FALSE, 100);
+	box = gtk_hbox_new(FALSE, 1);
+	box2 = gtk_vbox_new(FALSE, 5);
+	box3 = gtk_vbox_new(FALSE, 1);
 	gtk_window_set_title(GTK_WINDOW(window), "Menu principal");
-	titulo = gtk_label_new("Menu de gestion de carreras");
+	gtk_container_set_border_width(GTK_CONTAINER(window), 10);
+	titulo = gtk_label_new("Menu de gestion de carreras\n");
 
-	table = gtk_table_new(2, 8, TRUE);
+	printf("Ventana principal\n");
+
+	table = gtk_table_new(2, 8, FALSE);
 	lblBusc = gtk_label_new("Buscador por lista de carreras");
 	lblCar = gtk_label_new("Carrera:");
 	nav.lblResCar = gtk_label_new(nav.pos->carrera);
@@ -91,28 +102,41 @@ int main(int argc, char *argv[]){
 	btnMostrar = gtk_button_new_with_label("Mostrar Alumnos");
 	btnBaja = gtk_button_new_with_label("Dar de Baja");
 
-	exit = gtk_button_new_with_label("Salir");
+	btnExit = gtk_button_new_with_label("Salir");
 
 	separador = gtk_vseparator_new();
 
 	lblBuscarCta = gtk_label_new("Busqueda por numero de cuenta:");
 	entryCta = gtk_entry_new();
-	gtk_entry_set_text("Introducir numero de cuenta...");
-	btnBuscarProm = gtk_button_new_with_label("Buscar");
+	gtk_entry_set_text(GTK_ENTRY(entryCta),"Introducir numero de cuenta...");
+	btnBuscarCta = gtk_button_new_with_label("Buscar");
 
-	lblBuscarProm = gtk_label_new("Busqueda por promedio");
+	lblBuscarProm = gtk_label_new("Busqueda por promedio:");
 	entryProm = gtk_entry_new();
-	gtk_entry_set_text("Introducir el promedio...");
+	gtk_entry_set_text(GTK_ENTRY(entryProm),"Introducir el promedio...");
 	btnBuscarProm = gtk_button_new_with_label("Buscar");
 
+	printf("Atributos asignados\n");
+	
 	//3. Registrar las llamadas a las funciones
-	gtk_signal_connect(GTK_OBJECT(btnIzq), "clicked", GTK_SIGNAL_FUNC(recorrerIzq), nav);
-	gtk_signal_connect(GTK_OBJECT(btnDer), "clicked", GTK_SIGNAL_FUNC(recorrerDer), nav);
-	gtk_signal_connect(GTK_OBJECT(btnMostrar), "clicked", GTK_SIGNAL_FUNC(mostrarAlum), nav);
-	gtk_signal_connect(GTK_OBJECT(btnBaja), "clicked", GTK_SIGNAL_FUNC(darBaja), nav);
-	gtk_signal_connect(GTK_OBJECT(exit), "destroy", GTK_SIGNAL_FUNC(close), NULL);
-	gtk_signal_connect(GTK_OBJECT(btnBuscarCta), "clicked", GTK_SIGNAL_FUNC(buscarCta), root);
-	gtk_signal_connect(GTK_OBJECT(btnBuscarProm), "clicked", GTK_SIGNAL_FUNC(buscarProm), inicio);
+	gtk_signal_connect(GTK_OBJECT(window), "destroy", GTK_SIGNAL_FUNC(closeApp), NULL);
+	printf("1\n");
+	gtk_signal_connect(GTK_OBJECT(btnIzq), "clicked", GTK_SIGNAL_FUNC(recorrerIzq), &nav);
+	printf("2\n");
+	gtk_signal_connect(GTK_OBJECT(btnDer), "clicked", GTK_SIGNAL_FUNC(recorrerDer), &nav);
+	printf("3\n");
+	gtk_signal_connect(GTK_OBJECT(btnMostrar), "clicked", GTK_SIGNAL_FUNC(mostrarAlum), &nav);
+	printf("4\n");
+	gtk_signal_connect(GTK_OBJECT(btnBaja), "clicked", GTK_SIGNAL_FUNC(darBaja), &nav);
+	printf("5\n");
+	gtk_signal_connect(GTK_OBJECT(btnExit), "clicked", GTK_SIGNAL_FUNC(closeApp), NULL);
+	printf("6\n");
+	gtk_signal_connect(GTK_OBJECT(btnBuscarCta), "clicked", GTK_SIGNAL_FUNC(buscarCta), NULL);
+	printf("7\n");
+	gtk_signal_connect(GTK_OBJECT(btnBuscarProm), "clicked", GTK_SIGNAL_FUNC(buscarProm), &nav);
+	printf("8\n");
+
+	printf("Botones conectados\n");
 
 	//4. Definir jerarquias
 	gtk_table_attach(GTK_TABLE(table), lblBusc, 0, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
@@ -128,23 +152,28 @@ int main(int argc, char *argv[]){
 	gtk_table_attach(GTK_TABLE(table), btnDer, 1, 2, 5, 6, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach(GTK_TABLE(table), btnMostrar, 0, 1, 6, 7, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach(GTK_TABLE(table), btnBaja, 1, 2, 6, 7, GTK_FILL, GTK_FILL, 0, 0);
-	gtk_table_attach(GTK_TABLE(table), exit, 0, 2, 7, 8, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_table_attach(GTK_TABLE(table), btnExit, 0, 2, 7, 8, GTK_FILL, GTK_FILL, 0, 0);
 
 	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 5);
 
-	gtk_container_add(GTK_CONTAINER(window), box);
-	gtk_box_pack_start_defaults(GTK_BOX(box), titulo);
+	printf("------Empacando------\n");
+
+	gtk_container_add(GTK_CONTAINER(window), box3);
+	gtk_box_pack_start_defaults(GTK_BOX(box3), titulo);
+	gtk_box_pack_start_defaults(GTK_BOX(box3), box);
 	gtk_box_pack_start_defaults(GTK_BOX(box), table);
-	gtk_box_pack_start_defaults(GTK_BOX(box), separador);
-	gtk_box_pack_start_defaults(GTK_BOX(box), lblBuscarCta);
-	gtk_box_pack_start_defaults(GTK_BOX(box), entryCta);
-	gtk_box_pack_start_defaults(GTK_BOX(box), btnBuscarCta);
-	gtk_box_pack_start_defaults(GTK_BOX(box), lblBuscarProm);
-	gtk_box_pack_start_defaults(GTK_BOX(box), entryProm);
-	gtk_box_pack_start_defaults(GTK_BOX(box), btnBuscarProm);
+	//gtk_box_pack_start_defaults(GTK_BOX(box), separador);
+	gtk_box_pack_start_defaults(GTK_BOX(box), box2);
+	gtk_box_pack_start_defaults(GTK_BOX(box2), lblBuscarCta);
+	gtk_box_pack_start_defaults(GTK_BOX(box2), entryCta);
+	gtk_box_pack_start_defaults(GTK_BOX(box2), btnBuscarCta);
+	gtk_box_pack_start_defaults(GTK_BOX(box2), lblBuscarProm);
+	gtk_box_pack_start_defaults(GTK_BOX(box2), entryProm);
+	gtk_box_pack_start_defaults(GTK_BOX(box2), btnBuscarProm);
 
 	//5. Mostrar Los widgets
+	printf("------Iniciando interfaz------\n");
 	gtk_widget_show_all(window);
 
 	//6. Iniciar el loop
