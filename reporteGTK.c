@@ -14,7 +14,7 @@ void recorrerDer(GtkButton *btnIzq, gpointer nav);
 void mostrarAlum(GtkButton *btnMostrar, gpointer nav);
 void darBaja(GtkButton *btnBaja, gpointer nav);
 void closeApp(GtkButton *exit, gpointer data);
-void buscarCta(GtkButton *btnBuscarCta, gpointer root);
+void buscarCta(GtkButton *btnBuscarCta, gpointer nav);
 void buscarProm(GtkButton *btnBuscarProm, gpointer inicio);
 
 int main(int argc, char *argv[]){
@@ -55,6 +55,7 @@ int main(int argc, char *argv[]){
 	printf("------Estructura atualizada------\n");
 	nav.pos = inicio;
 	nav.list = inicio->fifo;
+	nav.root = root;
 	printf("------Iniciando interfaz en GTK------\n");
 
 	//La parte gráfica del programa comienza aqui
@@ -119,7 +120,7 @@ int main(int argc, char *argv[]){
 	printf("Atributos asignados\n");
 	
 	//3. Registrar las llamadas a las funciones
-	gtk_signal_connect(GTK_OBJECT(window), "destroy", GTK_SIGNAL_FUNC(closeApp), NULL);
+	gtk_signal_connect(GTK_OBJECT(window), "destroy", GTK_SIGNAL_FUNC(closeApp), inicio);
 	printf("1\n");
 	gtk_signal_connect(GTK_OBJECT(btnIzq), "clicked", GTK_SIGNAL_FUNC(recorrerIzq), &nav);
 	printf("2\n");
@@ -129,9 +130,9 @@ int main(int argc, char *argv[]){
 	printf("4\n");
 	gtk_signal_connect(GTK_OBJECT(btnBaja), "clicked", GTK_SIGNAL_FUNC(darBaja), &nav);
 	printf("5\n");
-	gtk_signal_connect(GTK_OBJECT(btnExit), "clicked", GTK_SIGNAL_FUNC(closeApp), NULL);
+	gtk_signal_connect(GTK_OBJECT(btnExit), "clicked", GTK_SIGNAL_FUNC(closeApp), inicio);
 	printf("6\n");
-	gtk_signal_connect(GTK_OBJECT(btnBuscarCta), "clicked", GTK_SIGNAL_FUNC(buscarCta), root);
+	gtk_signal_connect(GTK_OBJECT(btnBuscarCta), "clicked", GTK_SIGNAL_FUNC(buscarCta), &nav);
 	printf("7\n");
 	gtk_signal_connect(GTK_OBJECT(btnBuscarProm), "clicked", GTK_SIGNAL_FUNC(buscarProm), &nav);
 	printf("8\n");

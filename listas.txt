@@ -1,0 +1,11 @@
+****** Reporte de Alumnos ******
+------ Carrea 1 ------
+Arquitectura	1	7.900000	Rodrigo Martinez
+------ Alumnos ------
+829382	Rodrigo Martinez	7.900000
+------ Carrea 2 ------
+Mecatronica	3	8.599999	Guillermo Gomez
+------ Alumnos ------
+101021	Gutierrez Javier	8.200000
+392182	Javier Juarez	7.700000
+787822	Guillermo Gomez	9.900000

@@ -37,21 +37,22 @@ struct elemento{
 };
 typedef struct elemento nodo;
 
+struct listArb{
+        int cuenta;
+        char nombre[40];
+        char carrera[80];
+        float prom;
+        struct listArb *izq, *der;
+};
+typedef struct listArb arbol;
+
 struct estBuscador{
 	nodo *pos;
 	nodito *list;
+	arbol *root;
 	char auxWord[80];
 	GtkWidget *wdwMostrar, *wdwSalir, *wdwCta, *wdwProm;
 	GtkWidget *lblResCar, *lblResProm, *lblResMej, *lblResAlum;
 	GtkWidget *entryCta, *entryProm;
 };
 typedef struct estBuscador navegador;
-
-struct listArb{
-	int cuenta;
-	char nombre[40];
-	char carrera[80];
-	float prom;
-	struct listArb *izq, *der;
-};
-typedef struct listArb arbol;
