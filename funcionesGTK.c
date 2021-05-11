@@ -1,5 +1,10 @@
 #include "def.h"
 
+/**
+ * @file funcionesGTK.c
+ * @brief Esta funcion genera la lisa circular
+ */
+
 nodo *listaCircular(nodo *pt, info dat){
 	nodo *nuevo, *aux;
 	int i = 0;
@@ -40,6 +45,10 @@ nodo *listaCircular(nodo *pt, info dat){
 	return pt;
 }
 
+/**
+ * @brief Esta función se encarga de anexar la lista FIFO de alumnos
+ */
+
 nodito *pushFIFO(info dat, nodito *pt){
 	nodito *aux, *mover = pt;
 
@@ -66,6 +75,10 @@ nodito *pushFIFO(info dat, nodito *pt){
 	return pt;
 }
 
+/**
+ * @brief Esta función recibe la locaclización en la lista circular para anexar el FIFO
+ */
+
 nodo *listaFIFO(nodo *pt, info dat){
 	nodo *aux = pt;
 	do{
@@ -77,6 +90,10 @@ nodo *listaFIFO(nodo *pt, info dat){
 	}while(aux != pt);
 	return pt;
 }
+
+/**
+ * @brief Esta función genera el arbol binario
+ */
 
 arbol *generarArbol(arbol *pt, info dat){
 	arbol *nuevo, *aux = pt;
@@ -125,6 +142,10 @@ arbol *generarArbol(arbol *pt, info dat){
 	return pt;
 }
 
+/**
+ * @brief Esta función revisa y calcula promedio y mejor alumnos y #alumnos
+ */
+
 void actualizarNodos(nodo *pt){
 	nodo *aux = pt;
 	nodito *lista;
@@ -153,6 +174,10 @@ void actualizarNodos(nodo *pt){
 	}while(aux != pt);
 	return;
 }
+
+/**
+ * @brief Genera el reporte con la lista circular
+ */
 
 void generarReporte(nodo *pt){
         nodo *aux = pt;
@@ -185,6 +210,10 @@ void generarReporte(nodo *pt){
 
 //Aqui inician las funciones para GTK
 
+/**
+ * @brief Callback del bóton para generar reporte
+ */
+
 void generarRep(GtkButton *btnSI, gpointer inicio){
 	nodo *pt = (nodo *)inicio;
 	generarReporte(pt);
@@ -192,10 +221,18 @@ void generarRep(GtkButton *btnSI, gpointer inicio){
 	return;
 }
 
+/**
+ * @brief Callback del boton para salir sin reporte
+ */
+
 void salir(GtkButton *btnNo, gpointer inicio){
 	gtk_main_quit();
 	return;
 }
+
+/**
+ * @brief Ventana que pregunta para generar reporte
+ */
 
 void closeApp(GtkButton *btnExit, gpointer inicio){
         nodo *pt = (nodo *)inicio;
@@ -224,6 +261,10 @@ void closeApp(GtkButton *btnExit, gpointer inicio){
         return;
 }
 
+/**
+ * @brief Recorre la lista a la izquierda y actualiza la tabla
+ */
+
 void recorrerIzq(GtkButton *btnIzq, gpointer nav){
 	navegador *pt = (navegador *)nav;
 	char nAlum[3];
@@ -242,6 +283,10 @@ void recorrerIzq(GtkButton *btnIzq, gpointer nav){
 	return;
 }
 
+/**
+ * @brief Recorre la lista a la derecha y actualiza la tabla
+ */
+
 void recorrerDer(GtkButton *btnIzq, gpointer nav){
 	navegador *pt = (navegador *)nav;
         char nAlum[3];
@@ -259,6 +304,10 @@ void recorrerDer(GtkButton *btnIzq, gpointer nav){
         gtk_label_set_text(GTK_LABEL(pt->lblResAlum), nAlum);
 	return;
 }
+
+/**
+ * @brief Ventana que muestra los alumnos de la dirección actual
+ */
 
 void mostrarAlum(GtkButton *btnMostrar, gpointer nav){
 	navegador *pt = (navegador *)nav;
@@ -295,6 +344,10 @@ void mostrarAlum(GtkButton *btnMostrar, gpointer nav){
 	return;
 }
 
+/**
+ * @brief Elimina la dirección actual y reconecta la lista
+ */
+
 void darBaja(GtkButton *btnBaja, gpointer nav){
 	navegador *pt = (navegador *)nav;
 	char nAlum[3];
@@ -326,6 +379,10 @@ void darBaja(GtkButton *btnBaja, gpointer nav){
         gtk_label_set_text(GTK_LABEL(pt->lblResAlum), nAlum);
 	return;
 }
+
+/**
+ * @brief Ventana que muestra el resultado de la búsqueda por cuenta
+ */
 
 void buscarCta(GtkButton *btnBuscarCta, gpointer nav){
 	navegador *pt = (navegador *)nav;
@@ -370,6 +427,10 @@ void buscarCta(GtkButton *btnBuscarCta, gpointer nav){
 	gtk_widget_show_all(pt->wdwCta);
 	return;
 }
+
+/**
+ * @brief Venta que muestra los resultados de la busqueda por promedios
+ */
 
 void buscarProm(GtkButton *btnBuscarProm, gpointer nav){
 	navegador *pt = (navegador *)nav;

@@ -1,14 +1,17 @@
-//Añadir documentación
+/**
+ * @file reporteGTK.c
+ * @brief El programa principal para el proyecto final de Programacion Aplicada
+ * @author Nancy Melina y Fernando Yedra
+ * @date 11/05/2021
+ */
 
 #include "def.h"
 
-//Añadir prototipos de C
 nodo *listaCircular(nodo *pt, info dat);
 nodo *listaFIFO(nodo *pt, info dat);
 arbol *generarArbol(arbol *pt, info dat);
 void actualizarNodos(nodo *pt);
 
-//Añadir prototipos de GTK
 void recorrerIzq(GtkButton *btnIzq, gpointer nav);
 void recorrerDer(GtkButton *btnIzq, gpointer nav);
 void mostrarAlum(GtkButton *btnMostrar, gpointer nav);
