@@ -64,8 +64,8 @@ int main(int argc, char *argv[]){
 	GtkWidget *btnIzq, *btnDer;
 	GtkWidget *btnMostrar, *btnBaja;
 	GtkWidget *btnExit;
-	GtkWidget *lblBuscarCta, *entryCta, *btnBuscarCta;
-	GtkWidget *lblBuscarProm, *entryProm, *btnBuscarProm;
+	GtkWidget *lblBuscarCta, *btnBuscarCta;
+	GtkWidget *lblBuscarProm, *btnBuscarProm;
 
 	//1. Iniciar el ambiente
 	gtk_init(&argc, &argv);
@@ -107,13 +107,13 @@ int main(int argc, char *argv[]){
 	separador = gtk_vseparator_new();
 
 	lblBuscarCta = gtk_label_new("Busqueda por numero de cuenta:");
-	entryCta = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(entryCta),"Introducir numero de cuenta...");
+	nav.entryCta = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(nav.entryCta),"Introducir numero de cuenta...");
 	btnBuscarCta = gtk_button_new_with_label("Buscar");
 
 	lblBuscarProm = gtk_label_new("Busqueda por promedio:");
-	entryProm = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(entryProm),"Introducir el promedio...");
+	nav.entryProm = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(nav.entryProm),"Introducir el promedio...");
 	btnBuscarProm = gtk_button_new_with_label("Buscar");
 
 	printf("Atributos asignados\n");
@@ -131,7 +131,7 @@ int main(int argc, char *argv[]){
 	printf("5\n");
 	gtk_signal_connect(GTK_OBJECT(btnExit), "clicked", GTK_SIGNAL_FUNC(closeApp), NULL);
 	printf("6\n");
-	gtk_signal_connect(GTK_OBJECT(btnBuscarCta), "clicked", GTK_SIGNAL_FUNC(buscarCta), NULL);
+	gtk_signal_connect(GTK_OBJECT(btnBuscarCta), "clicked", GTK_SIGNAL_FUNC(buscarCta), root);
 	printf("7\n");
 	gtk_signal_connect(GTK_OBJECT(btnBuscarProm), "clicked", GTK_SIGNAL_FUNC(buscarProm), &nav);
 	printf("8\n");
@@ -166,10 +166,10 @@ int main(int argc, char *argv[]){
 	//gtk_box_pack_start_defaults(GTK_BOX(box), separador);
 	gtk_box_pack_start_defaults(GTK_BOX(box), box2);
 	gtk_box_pack_start_defaults(GTK_BOX(box2), lblBuscarCta);
-	gtk_box_pack_start_defaults(GTK_BOX(box2), entryCta);
+	gtk_box_pack_start_defaults(GTK_BOX(box2), nav.entryCta);
 	gtk_box_pack_start_defaults(GTK_BOX(box2), btnBuscarCta);
 	gtk_box_pack_start_defaults(GTK_BOX(box2), lblBuscarProm);
-	gtk_box_pack_start_defaults(GTK_BOX(box2), entryProm);
+	gtk_box_pack_start_defaults(GTK_BOX(box2), nav.entryProm);
 	gtk_box_pack_start_defaults(GTK_BOX(box2), btnBuscarProm);
 
 	//5. Mostrar Los widgets

@@ -41,7 +41,9 @@ struct estBuscador{
 	nodo *pos;
 	nodito *list;
 	char auxWord[80];
+	GtkWidget *wdwMostrar, *wdwSalir, *wdwCta, *wdwProm;
 	GtkWidget *lblResCar, *lblResProm, *lblResMej, *lblResAlum;
+	GtkWidget *entryCta, *entryProm;
 };
 typedef struct estBuscador navegador;
 

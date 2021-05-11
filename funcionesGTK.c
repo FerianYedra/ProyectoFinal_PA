@@ -154,6 +154,14 @@ void actualizarNodos(nodo *pt){
 	return;
 }
 
+//Aqui inician las funciones para GTK
+
+void closeApp(GtkButton *btnExit, gpointer data){
+        gtk_main_quit();
+        printf("------Cerrando ventana------\n");
+        return;
+}
+
 void recorrerIzq(GtkButton *btnIzq, gpointer nav){
 	navegador *pt = (navegador *)nav;
 	char nAlum[3];
@@ -162,6 +170,7 @@ void recorrerIzq(GtkButton *btnIzq, gpointer nav){
                 return;
         }
 	pt->pos = pt->pos->izq;
+	pt->list = pt->pos->fifo;
 	sprintf(nAlum, "%i", pt->pos->alumnos);
 	sprintf(cProm, "%f", pt->pos->prom);
 	gtk_label_set_text(GTK_LABEL(pt->lblResCar), pt->pos->carrera);
@@ -170,6 +179,7 @@ void recorrerIzq(GtkButton *btnIzq, gpointer nav){
 	gtk_label_set_text(GTK_LABEL(pt->lblResAlum), nAlum);
 	return;
 }
+
 void recorrerDer(GtkButton *btnIzq, gpointer nav){
 	navegador *pt = (navegador *)nav;
         char nAlum[3];
@@ -178,6 +188,7 @@ void recorrerDer(GtkButton *btnIzq, gpointer nav){
                 return;
         }
         pt->pos = pt->pos->der;
+	pt->list = pt->pos->fifo;
         sprintf(nAlum, "%i", pt->pos->alumnos);
 	sprintf(cProm, "%f", pt->pos->prom);
         gtk_label_set_text(GTK_LABEL(pt->lblResCar), pt->pos->carrera);
@@ -186,9 +197,39 @@ void recorrerDer(GtkButton *btnIzq, gpointer nav){
         gtk_label_set_text(GTK_LABEL(pt->lblResAlum), nAlum);
 	return;
 }
+
 void mostrarAlum(GtkButton *btnMostrar, gpointer nav){
+	navegador *pt = (navegador *)nav;
+	GtkWidget *tituloMostrar, *boxMostrar, *lblAlumnos;
+	nodito *aux = pt->list;
+	char tituloM[100], alumnosM[200];
+	int i = 0;
+
+	pt->wdwMostrar = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	boxMostrar = gtk_vbox_new(FALSE, 5);
+	gtk_window_set_title(GTK_WINDOW(pt->wdwMostrar), "Mostrar Alumnos");
+	gtk_container_set_border_width(GTK_CONTAINER(pt->wdwMostrar), 10);
+	sprintf(tituloM, "Alumnos en %s\n", pt->pos->carrera);
+	tituloMostrar = gtk_label_new(tituloM);
+	while(aux != NULL){
+		if(i == 0){
+			sprintf(alumnosM, "%s\n", aux->nombre);
+			i = 1;
+		}else{
+			sprintf(alumnosM, "%s\n%s\n", alumnosM, aux->nombre);
+		}
+		aux = aux->next;
+	}
+	lblAlumnos = gtk_label_new(alumnosM);
+	
+	gtk_container_add(GTK_CONTAINER(pt->wdwMostrar), boxMostrar);
+	gtk_box_pack_start_defaults(GTK_BOX(boxMostrar), tituloMostrar);
+	gtk_box_pack_start_defaults(GTK_BOX(boxMostrar), lblAlumnos);
+
+	gtk_widget_show_all(pt->wdwMostrar);
 	return;
 }
+
 void darBaja(GtkButton *btnBaja, gpointer nav){
 	navegador *pt = (navegador *)nav;
 	char nAlum[3];
@@ -219,14 +260,32 @@ void darBaja(GtkButton *btnBaja, gpointer nav){
         gtk_label_set_text(GTK_LABEL(pt->lblResAlum), nAlum);
 	return;
 }
-void closeApp(GtkButton *btnExit, gpointer data){
-	gtk_main_quit();
-	printf("------Cerrando ventana------\n");
-	return;
-}
+
 void buscarCta(GtkButton *btnBuscarCta, gpointer root){
+	/*arbol *pt = (arbol *)root;
+	GtkWidget *tituloCta, *lblInfo, *boxCta;
+	int i = 1;
+	char nombre[40], nCta[20], prom[10], info[200];
+
+	pt->wdwCta = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	boxCta = gtk_vbox_new(FALSE, 5);
+	gtk_window_set_title(GTK_WINDOW(pt->wdwCta), "Busqueda Cta");
+	gtk_container_set_border_width(GTK_CONTAINER(pt->wdwCta), 10);
+	
+	if(i == 1){
+		tituloCta = gtk_label_new("Alumno no encontrado\n");
+		lblInfo = gtk_label_new(":(");
+	}
+
+	gtk_container_add(GTK_CONTAINER(pt->wdwCta), boxCta);
+	gtk_box_pack_start_defaults(GTK_BOX(boxCta), tituloCta);
+	gtk_box_pack_start_defaults(GTK_BOX(boxCta), lblInfo);
+
+	gtk_widget_show_all(pt->wdwCta);
+	*/
 	return;
 }
+
 void buscarProm(GtkButton *btnBuscarProm, gpointer inicio){
 	return;
 }
